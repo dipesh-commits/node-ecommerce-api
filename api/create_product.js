@@ -5,6 +5,8 @@ var db = require('../models/db');
 const path= require('path');
 const multer = require('multer');
 const sharp = require('sharp');
+const Category =require('../models/category.model');
+
 
 
 
@@ -55,6 +57,8 @@ function checkFileType(file,cb){
 router.post('/',upload.array('productImages',3),function(req,res,next){
     console.log(req.files);
     
+  
+    
     const prod = new Product({
         name: req.body.name,
         specs: {
@@ -72,17 +76,19 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         }],
            tags: req.body.tags,
         },
-        // productImages: req.file.path,
+        
+        productImages:{
+            image1:req.files[0].path,
+            image2: req.files[1].path,
+            image3: req.files[2].path,
+        },
         
         brand: req.body.brand,
 
        rating:{
         values: req.body.values
     },
-        // rating: req.body.rating,
-        
-        // values:req.body.values,
-        
+
         review : [{
 
         user_id:req.body.user_id,
@@ -94,7 +100,9 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
             },  
             }],
         
-        categories: req.body.categories,
+        categories: "5ce158e80ddc0f1fd82b67f8",
+
+        status:'1',
         created_date : req.body.create_date,
         updated_date : req.body.updated_date
     });
@@ -111,25 +119,58 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
 
 router.put('/:id',function(req,res,next){
     product_id= req.params.id;
-    Product.findOneAndUpdate({'_id':product_id},{
+    Product.findByIdAndUpdate({'_id':product_id},{
         $set:{
-        name:req.body.name,
-        specs: req.body.specs,
-        description:req.body.description,
-        price: req.body.price,
-        size: req.body.size_value,
-        color_details: req.body.color_details,
-        color: req.body.color_value,
-        quantity : req.body.quantity,
-        tags:req.body.tags,
-
-        brand: req.body.brand,
-        rating:req.body.rating,
-        user_id: req.body.user_id,
-        values: req.body.comment,
-        likes:req.body.likes,
-        categories:req.body.categories,
-        updated_date:req.body.updated_date
+            name: req.body.name,
+            specs: {
+            
+            description: req.body.description,
+            price: req.body.price,
+            gender: req.body.gender,
+            size: [{
+                size_value : req.body.size_value,
+           
+            color_details : [{
+                color_value : req.body.color_value,
+                quantity : req.body.quantity
+            }],
+            }],
+               tags: req.body.tags,
+            },
+            
+            productImages:{
+                image1:req.files[0].path,
+                image2: req.files[1].path,
+                image3: req.files[2].path,
+            },
+            
+            brand: req.body.brand,
+    
+           rating:{
+            values: req.body.values
+        },
+            // rating: req.body.rating,
+            
+            // values:req.body.values,
+            
+            review : [{
+    
+            user_id:req.body.user_id,
+                
+                comment_details:{
+    
+                    comment: req.body.comment,
+                    likes: req.body.likes,
+                },  
+                }],
+            
+           categories: {
+            parent_category:req.body.parent_category,
+            child_category:req.body.child_category,
+        },
+            
+            
+            updated_date : Date.now(),
         }
     },function(err,data){
         if(err){
@@ -159,6 +200,24 @@ router.put('/:id',function(req,res,next){
 //         }
 //         res.json(response);
 //     });
+
+
+ router.delete('/:id',function(req,res,err){
+     productid= req.params.id;
+     Product.findByIdAndUpdate({'_id':productid},{
+     $set:{
+        status:'0',
+     
+    }
+},
+     function(err,data){
+         if(err){
+             response= {"error":true,"message":data};
+         }else{
+             response={"error":false,"message":data};
+         }
+     });
+ });
  
 
 

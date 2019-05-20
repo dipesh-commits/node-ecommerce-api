@@ -2,6 +2,7 @@ const express = require('express');
 const router= express.Router();
 var db = require('../models/db');
 var Product = require('../models/product.model');
+const Category= require('../models/category.model');
 
 
 //getting the categories list
@@ -20,6 +21,25 @@ router.get('/:categories',function(req,res){
 
     });
    
+});
+
+
+//adding the categories list
+router.post('/',function(req,res){
+    const category = new Category({
+        name:req.body.name,
+        parent: req.body.parent,
+        category : req.body.parent+req.body.name,
+    });
+    console.log(req.body);
+
+    category.save()
+    .then(function(doc){
+        res.json(doc);
+    })
+    .catch(function(err){
+        res.json(err);
+    });
 });
 
 module.exports = router;

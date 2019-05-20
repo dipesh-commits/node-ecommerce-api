@@ -10,6 +10,8 @@ const category = require('./api/categoriesroute');          //getting the catego
 const create_product= require('./api/create_product');      //adding the product
 const product_detail = require('./api/product_details');    //viewing the individual product detail
 // const uploadimage = require('./api/uploadphoto');
+const user=require('./api/user');                           //user details
+const shop= require('./api/shop');                          //shop details
 
 
 var app= express();
@@ -28,6 +30,8 @@ app.use('/popular-items',popular_items);
 app.use('/category',category);
 app.use('/add-product',create_product);
 app.use('/product',product_detail);
+app.use('/user',user);
+app.use('/shop',shop);
 // app.use('/uploadimage',uploadimage);
 
 

@@ -6,7 +6,7 @@ var Product= require('../models/product.model');
 
 router.get('/:id',function(req,res){
     product_id= req.params.id;
-    Product.findById({"_id":product_id},function(err,data){
+    Product.findById({"_id":product_id,"status":1},function(err,data){
         if(err){
             response= {"error":true,"message":data}
         }else{

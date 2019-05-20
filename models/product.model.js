@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const db = require('./db');
 
 
+
+
+
 //making the specs schema
 
 var SizeSchema = db.Schema({
@@ -105,18 +108,21 @@ var ProductSchema = db.Schema({
      specs: SpecsSchema , 
 
 
-    productImages:[{
-        type:String,
-    }],
+    productImages:{
+        image1: String,
+        image2:String,
+        image3:String,
+    },
     
 
     rating: RatingSchema,
     
     review: [ReviewSchema],
 
-    categories:{
-        type:String,
-        lowercase: true,
+    categories: mongoose.Schema.Types.ObjectId,
+
+    status:{
+        type:Boolean,
     },
 
   
@@ -133,3 +139,4 @@ var ProductSchema = db.Schema({
 });
 
 module.exports = db.model('Product',ProductSchema);             //Exporting the model
+// module.exports = db.model('Category',CategoriesSchema);              

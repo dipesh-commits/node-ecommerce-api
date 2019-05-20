@@ -27,24 +27,25 @@ router.get('/',function(req,res,next){
 //     });
 
     var items=[];
-    Product.find({ "rating.values": {$gt:"202"}},function(err,data){
+    Product.find({"status":1},function(err,data){
                 if(err){
                     response = {"error":true,"message":"Error fetching the data"};
                 }else{
                     response = {"error":false,"message":data};
                 }
-            items.push(response);
+                res.json(response);
+            
         });
 
-            Product.find().sort({"price":1}).exec(function(err,data){
-                            if(err){
-                                popular ={"error":true,"message":"Error in fetching data"};
-                            }else{
-                                popular = {"error":false , "message":data};
-                            }
-                            items.push(popular);
-                            res.json(items); 
-                    });
+            // Product.find().sort({"price":1}).exec(function(err,data){
+            //                 if(err){
+            //                     popular ={"error":true,"message":"Error in fetching data"};
+            //                 }else{
+            //                     popular = {"error":false , "message":data};
+            //                 }
+            //                 items.push(popular);
+            //                 re
+            //         });
                   
                    
 
@@ -53,6 +54,7 @@ router.get('/',function(req,res,next){
   //  var popular = Product.find({categories:"shirt"});
   //  res.json(items);
  // 
+ 
 
 });
 
