@@ -87,6 +87,7 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         brand: req.body.brand,
 
         product_details : req.body.product_details,
+        shop_id : req.body.shop_id,
 
        rating:[{
            userid:req.body.userid,

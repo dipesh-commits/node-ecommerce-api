@@ -4,6 +4,9 @@ const router= express.Router()
 var db= require('../models/db');
 var Product= require('../models/product.model');
 var Category = require('../models/category.model');
+var User = require('../models/user.model');
+
+//getting the product details
 
 router.get('/:id',function(req,res){
     product_id= req.params.id;
@@ -19,22 +22,33 @@ router.get('/:id',function(req,res){
             category_data.push(data);
             });
         
-        console.log(data.categories);
+        var shop =data.shop_id;
+        var shops = new User();
+        var shop_data = [];
+        await User.find({"_id":shop,"shopkeeper":1},function(err,data){
+            shop_data.push(data);
+        });
+
+        console.log(shop_data);
+
+
+
+
 
         
         if(err){
             response= {"error":true,"message":data}
         }else{
-            response={"error":false,"message":data,"category_list":category_data}
+            response={"error":false,"message":data,"category_list":category_data,"shop_details":shop_data}
         }
         res.json(response);
         
       
     });
-}catch(error){
-    errorResult(res,error);
-}
-});
+        }catch(error){
+            errorResult(res,error);
+            }
+        });
 
 
 module.exports= router;

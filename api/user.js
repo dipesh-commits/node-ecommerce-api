@@ -68,26 +68,57 @@ router.get('/:id/edit',function(req,res,next){
 
 //edit the shopkeeper profile
 router.put('/:id/edit',upload.array("images",2),function(req,res,next){
-    shopid= req.params.id,
-    console.log(req.body);
+   let shopid= req.params.id;
 
-    User.find({"_id":shopid}).update({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            contact_no : req.body.contact_no,
-            images:{
-                shop_logo:req.files[0].path,
-                shop_picture: req.files[1].path,
-            },
-            shopname:req.body.shopname,
-            updated_at: Date.now(),
-    },function(err,data){
+    let {
+        firstname,
+        lastname,
+        shopname,
+        location,
+        pan_no,
+        contact_no,
+    }= req.body;
+
+    let updateObj={};
+    firstname && (updateObj.firstname = firstname);
+    lastname && (updateObj.lastname = lastname);
+    shopname && (updateObj.shopname = shopname);
+    location && (updateObj.location = location);    
+    pan_no && (updateObj.pan_no = pan_no);
+    contact_no && (updateObj.contact_no = contact_no);
+    
+    updateObj.updated_at = Date.now();
+    updateObj.images = {
+        shop_logo : req.files[0].path,
+        shop_picture : req.files[1].path,
+    };
+    updateObj.pan_no = req.body.pan_no;
+    User.find({"_id":shopid}).update(updateObj,function(err,data){
         if(err){
             res.json(err);
         }else{
             res.json(data);
         }
     });
+
+    // console.log(req.body);
+
+    // User.find({"_id":shopid}).update({
+    //         pan_no: req.body.pan_no,
+    //         contact_no : req.body.contact_no,
+    //         images:{
+    //             shop_logo:req.files[0].path,
+    //             shop_picture: req.files[1].path,
+    //         },
+    //         shopname:req.body.shopname,
+    //         updated_at: Date.now(),
+    // },function(err,data){
+    //     if(err){    
+    //         res.json(err);
+    //     }else{
+    //         res.json(data);
+    //     }
+    // });
     
 });
 
@@ -128,7 +159,7 @@ router.put('/:id/edit',upload.array("images",2),function(req,res,next){
 // })
 
 
-
+//signing up the user
 router.post('/',function(req,res,next){
     const user = new User({
         firstname: req.body.firstname,
