@@ -23,9 +23,9 @@ var UserSchema= db.Schema({
     },
 
 
-    following:{
-        type: mongoose.Schema.ObjectId,
-    },
+    following:[{
+        type: mongoose.Schema.ObjectId,                 //following to other shops
+    }],
 
 
     location: {
@@ -33,24 +33,41 @@ var UserSchema= db.Schema({
         index : '2d',
     },
 
-    // geo:{
-    //     // // type:{
-    //     // //     type:String,
-    //     // //     enum:['Point'],
-    //     // //     required: true,
-    //     // },
-    //     coordinates:{
-    //         type:[Number],
-    //         required:true,
-    //     }
-    // },
-
-
-
     shopkeeper: {
         type:Boolean,
         required:true,
     },
+
+    shopname:{
+        type:String,
+        required:true,
+    },
+
+    images:{
+        shop_logo:{
+            type:String,
+           },
+
+        shop_picture:{
+        type:String,
+    },
+    },
+
+    
+
+
+    followers:[{
+        type:mongoose.Schema.Types.ObjectId,            //following by other shops
+    }],
+
+    pan_no:{
+        type:String,
+    },
+
+    contact_no:{
+        type:Number,
+    },
+
 
     created_at: {
         type: Date,

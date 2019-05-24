@@ -2,7 +2,10 @@ const express = require('express')
 
 const router = express.Router();
 const User = require('../models/user.model'); 
+const Shop = require('../models/shop.model.js');
 
+
+//viewing other's profile
 router.get('/:id',function(req,res){
     shop_id = req.params.id;
     User.findOne({"_id":shop_id,"shopkeeper":1},function(err,data){
@@ -15,6 +18,32 @@ router.get('/:id',function(req,res){
         res.json(response);
     });
 
+});
+
+
+
+//editing own profile
+router.post('/editprofile',function(req,res){
+    User.findOne({"_id":req.body.id},function(err,user){
+        if(!user){
+            console.error(err);
+        }else{
+            const shop = new Shop({
+            user_id: "5ce28fdff64e1c1f92e0bcc5",
+        
+            pan_no: req.body.pan_no,
+            contact_number : req.body.contact_no,
+            });
+            shop.save()
+    .then(function(doc){
+        console.log(doc);
+    })
+    .catch(function(err){
+        console.error(err);
+    })
+        }
+    })
+    
 });
 
 module.exports= router;

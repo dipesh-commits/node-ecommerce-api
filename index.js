@@ -1,6 +1,7 @@
 require('./models/db');
 const bodyParser = require('body-parser');
 const express= require('express');
+const path= require('path');
 
 //Importing all the routes
 
@@ -11,7 +12,7 @@ const create_product= require('./api/create_product');      //adding the product
 const product_detail = require('./api/product_details');    //viewing the individual product detail
 // const uploadimage = require('./api/uploadphoto');
 const user=require('./api/user');                           //user details
-const shop= require('./api/shop');                          //shop details
+
 
 
 var app= express();
@@ -20,7 +21,7 @@ app.use(bodyParser.urlencoded({
     extended:true,
 }));
 
-app.use(express.static('public/'));
+app.use(express.static(path.join(__dirname,'public')));
 
 //using the route middleware
 
@@ -31,7 +32,7 @@ app.use('/category',category);
 app.use('/add-product',create_product);
 app.use('/product',product_detail);
 app.use('/user',user);
-app.use('/shop',shop);
+
 // app.use('/uploadimage',uploadimage);
 
 
@@ -39,6 +40,6 @@ app.use('/shop',shop);
 //listening to the port
 
 app.listen(4000,function(){
-console.log('Listening to port number 2000');
+console.log('Listening to port number 4000');
 });
 

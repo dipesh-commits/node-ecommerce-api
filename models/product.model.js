@@ -43,6 +43,11 @@ var SpecsSchema = db.Schema({
         type:Number,
         required:true,
         },
+        
+    discount:{
+        type:Number,
+        
+    },
     
     
     gender:{
@@ -63,6 +68,7 @@ var SpecsSchema = db.Schema({
 
 var RatingSchema = db.Schema({
     id:false,
+    userid: mongoose.Schema.Types.ObjectId,
     values :{
         type:Number,
     },
@@ -108,14 +114,23 @@ var ProductSchema = db.Schema({
      specs: SpecsSchema , 
 
 
-    productImages:{
+    productImages:[{
         image1: String,
         image2:String,
         image3:String,
+    }],
+
+    shop_id:{
+        type: mongoose.Schema.Types.ObjectId,
+    },
+
+    product_details:{
+        type: String,
+        required:true,
     },
     
 
-    rating: RatingSchema,
+    rating: [RatingSchema],
     
     review: [ReviewSchema],
 

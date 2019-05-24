@@ -65,6 +65,7 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         
         description: req.body.description,
         price: req.body.price,
+        discount: req.body.discount,
         gender: req.body.gender,
         size: [{
             size_value : req.body.size_value,
@@ -77,17 +78,20 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
            tags: req.body.tags,
         },
         
-        productImages:{
+        productImages:[{
             image1:req.files[0].path,
             image2: req.files[1].path,
             image3: req.files[2].path,
-        },
+        }],
         
         brand: req.body.brand,
 
-       rating:{
+        product_details : req.body.product_details,
+
+       rating:[{
+           userid:req.body.userid,
         values: req.body.values
-    },
+    }],
 
         review : [{
 
@@ -143,6 +147,8 @@ router.put('/:id',function(req,res,next){
                 image2: req.files[1].path,
                 image3: req.files[2].path,
             },
+
+            shop_id: req.body.shop_id,
             
             brand: req.body.brand,
     
