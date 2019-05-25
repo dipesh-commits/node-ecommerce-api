@@ -103,6 +103,8 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
                 comment: req.body.comment,
                 likes: req.body.likes,
             },  
+
+            created_at : Date.now(),
             }],
         
         categories: req.body.categories,
@@ -115,6 +117,7 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
     prod.save()
     .then(doc=>{
         console.log(JSON.stringify(doc,null,4));
+        res.json(doc);
     })
     .catch(err=>{
         console.error(err);

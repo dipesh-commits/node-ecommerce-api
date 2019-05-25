@@ -82,6 +82,7 @@ var ReviewSchema = db.Schema({
     id:false,
     user_id:{
         type:String,
+        ref:"User"
     },
 
     comment_details:{
@@ -92,6 +93,10 @@ var ReviewSchema = db.Schema({
             type:Number,
         },
     },
+
+    created_at: {
+        type:Date,
+    }
 });
 
 

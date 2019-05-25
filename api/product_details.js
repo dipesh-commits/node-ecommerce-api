@@ -12,7 +12,7 @@ router.get('/:id',function(req,res){
     product_id= req.params.id;
     
     
-    Product.findOne({"_id":product_id,"status":1}).populate('categories').populate('shop_id').exec(function(err,data){
+    Product.findOne({"_id":product_id,"status":1}).populate('categories').populate('shop_id').populate('review.user_id').exec(function(err,data){
         // var category = data.categories;
         
         // var categories = new Category();

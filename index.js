@@ -39,7 +39,7 @@ app.use('/user',user);
 
 //listening to the port
 
-app.listen(4000,function(){
-console.log('Listening to port number 4000');
+app.listen(3000,function(){
+console.log('Listening to port number 3000');
 });
 

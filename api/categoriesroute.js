@@ -15,7 +15,7 @@ router.get('/:categories',function(req,res){
     category = req.params.categories;
     
 
-    Product.find({"categories":category},function(err,data){
+    Product.find({"name":category},function(err,data){
         if(err){
             response = {"error":true , "message":data};
         }else{
@@ -66,7 +66,7 @@ router.get('/childcategory/add',function(req,res,next){
 
 router.post('/childcategory/add',async function(req,res,next){
      var parent_category = [];
-    await Category.find({}).select('category').find(function(err,data){
+    await Category.find({}).select('parent').find(function(err,data){
         parent_category.push(data);
     });
     console.log(parent_category);
