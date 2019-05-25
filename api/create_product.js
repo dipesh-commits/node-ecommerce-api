@@ -90,8 +90,8 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         shop_id : req.body.shop_id,
 
        rating:[{
-           userid:req.body.userid,
-        values: req.body.values
+            userid:req.body.userid,
+            values: req.body.values
     }],
 
         review : [{
@@ -105,7 +105,7 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
             },  
             }],
         
-        categories: "5ce158e80ddc0f1fd82b67f8",
+        categories: req.body.categories,
 
         status:'1',
         created_date : req.body.create_date,
@@ -122,6 +122,8 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
 });
 
 
+
+//update the product
 router.put('/:id',function(req,res,next){
     product_id= req.params.id;
     Product.findByIdAndUpdate({'_id':product_id},{
@@ -209,6 +211,8 @@ router.put('/:id',function(req,res,next){
 //     });
 
 
+
+//delete the product
  router.delete('/:id',function(req,res,err){
      productid= req.params.id;
      Product.findByIdAndUpdate({'_id':productid},{

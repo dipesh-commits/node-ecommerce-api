@@ -3,12 +3,19 @@ const express = require('express')
 const router = express.Router();
 const User = require('../models/user.model'); 
 const Shop = require('../models/shop.model.js');
+const Product = require('../models/product.model');
 
 
 //viewing other's profile
 router.get('/:id',function(req,res){
     shop_id = req.params.id;
-    User.findOne({"_id":shop_id,"shopkeeper":1},function(err,data){
+    User.findOne({"_id":shop_id,"shopkeeper":1},async function(err,data){
+
+        var product_details = [];
+        await Product.findMany({"shop_id":shop_id},function(err,data){
+            console.log(data);
+        })
+
         if(err){
             response=  {"error":true,"message": data};
         }else{

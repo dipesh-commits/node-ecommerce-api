@@ -4,6 +4,7 @@ const router = express.Router();
 const User= require('../models/user.model');
 const mongoose=require('mongoose');
 const multer= require('multer');
+const Product = require('../models/product.model');
 
 
 const storage=multer.diskStorage({
@@ -38,15 +39,30 @@ function checkFileType(file,cb){
 router.get('/:id',function(req,res,next){
     user_id = req.params.id;
     
-    User.findOne({"_id":user_id,"shopkeeper":1},function(err,data){
+    User.findOne({"_id":user_id,"shopkeeper":1},async function(err,data){
+
+        shop_item_details_recent=[];
+      try{  
+        await Product.find({"shop_id":user_id}).sort({create_date:-1}).find(function(err,data){
+            shop_item_details_recent.push(data);
+        });
+
+        shop_item_details_top_rated =[];
+        await Product.find({"shop_id":user_id}).sort({'rating.values':-1}).find(function(err,data){
+            shop_item_details_top_rated.push(data);
+        });
+        
+
         if(err){
             response= {"error":true,"message":data}
         }else{
-            response = {"error":false,"message":data}
+            response = {"error":false,"message":data,"item_details_recent":shop_item_details_recent,"item_details_top_rated":shop_item_details_top_rated};
         }
         res.json(response);
+    }catch(e){
+        console.error(e);
+    }
     });
-    
 });
 
 
@@ -92,7 +108,7 @@ router.put('/:id/edit',upload.array("images",2),function(req,res,next){
         shop_logo : req.files[0].path,
         shop_picture : req.files[1].path,
     };
-    updateObj.pan_no = req.body.pan_no;
+    
     User.find({"_id":shopid}).update(updateObj,function(err,data){
         if(err){
             res.json(err);
@@ -164,14 +180,18 @@ router.post('/',function(req,res,next){
     const user = new User({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
+        shopname: req.body.shopname,
         email: req.body.email,
         password : req.body.password,
         location:[req.body.location[0],req.body.location[1]],
         // geo : [{lat:req.body.lat,lng:req.body.lng}],
+        followers : req.body.followers,
+        following : req.body.following,
+
 
         shopkeeper: '1',
-        created_at: req.body.created_at,
-        updated_at : req.body.updated_at
+        created_at: Date.now(),
+        updated_at : Date.now(),
 
     });
     user.save()

@@ -122,6 +122,7 @@ var ProductSchema = db.Schema({
 
     shop_id:{
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
 
     product_details:{
@@ -134,7 +135,10 @@ var ProductSchema = db.Schema({
     
     review: [ReviewSchema],
 
-    categories: mongoose.Schema.Types.ObjectId,
+    categories:{ 
+        type:mongoose.Schema.Types.ObjectId,
+        ref: "Category"
+    },
 
     status:{
         type:Boolean,
