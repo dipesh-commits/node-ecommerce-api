@@ -87,6 +87,10 @@ router.post('/childcategory/add',async function(req,res,next){
 });
 
 
+
+
+
+
 //adding the categories list
 // router.post('/',function(req,res){
 //     const category = new Category({

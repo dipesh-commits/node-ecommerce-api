@@ -35,7 +35,7 @@ router.get('/:id',function(req,res){
             response={"error":false,"message":data}
         }
         res.json(response);
-        console.log(response);
+        
         
       
     });

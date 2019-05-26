@@ -162,5 +162,14 @@ var ProductSchema = db.Schema({
 
 });
 
+
+ProductSchema.index({name:"text",gender:"text"},{
+    weights:{
+        name:2,
+        description:5,
+    },
+});
+
+
 module.exports = db.model('Product',ProductSchema);             //Exporting the model
 // module.exports = db.model('Category',CategoriesSchema);              

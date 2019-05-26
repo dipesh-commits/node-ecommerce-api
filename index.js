@@ -12,6 +12,7 @@ const create_product= require('./api/create_product');      //adding the product
 const product_detail = require('./api/product_details');    //viewing the individual product detail
 // const uploadimage = require('./api/uploadphoto');
 const user=require('./api/user');                           //user details
+const search = require('./api/filterproduct');              //searching the items
 
 
 
@@ -32,6 +33,7 @@ app.use('/category',category);
 app.use('/add-product',create_product);
 app.use('/product',product_detail);
 app.use('/user',user);
+app.use('/search',search);
 
 // app.use('/uploadimage',uploadimage);
 
@@ -39,7 +41,7 @@ app.use('/user',user);
 
 //listening to the port
 
-app.listen(3000,function(){
-console.log('Listening to port number 3000');
+app.listen(4000,function(){
+console.log('Listening to port number 4000');
 });
 
