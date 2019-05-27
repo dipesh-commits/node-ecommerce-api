@@ -10,7 +10,18 @@ router.get('/',function(req,res,next){
     var text= req.query.items;
     if(req.query.items){
         const regex = new RegExp(escapeRegex(req.query.items), 'gi');
-    Product.find({name:regex},function(err,data){
+    Product.find({
+        "$or":[
+            {
+               "name":{'$regex':regex,'$options' : 'i'}
+            },
+            {
+                "description":{'$regex':regex,'$options':'i'}
+            },
+            // {
+            //     "gender":{'$regex':regex,'$options':'i'}},{categories:{'$regex':regex,'$options':'i'}}
+           ]
+    },function(err,data){
             if(err){
                 res.json(err);
             }else{

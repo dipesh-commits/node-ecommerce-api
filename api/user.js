@@ -183,7 +183,10 @@ router.post('/',function(req,res,next){
         shopname: req.body.shopname,
         email: req.body.email,
         password : req.body.password,
-        location:[req.body.location[0],req.body.location[1]],
+        location:{
+            type:"Point",
+            coordinates:[-112.1102492,36.098048]
+        },
         // geo : [{lat:req.body.lat,lng:req.body.lng}],
         followers : req.body.followers,
         following : req.body.following,

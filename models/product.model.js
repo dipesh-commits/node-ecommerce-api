@@ -134,6 +134,10 @@ var ProductSchema = db.Schema({
         type: String,
         required:true,
     },
+
+    views:{
+        type:Number,
+    },
     
 
     rating: [RatingSchema],

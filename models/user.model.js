@@ -27,11 +27,19 @@ var UserSchema= db.Schema({
         type: mongoose.Schema.ObjectId,                 //following to other shops
     }],
 
+    location:{
+        type:{
+            type:String,
+        },
+        coordinates:[]
 
-    location: {
-        type: [Number],
-        index : '2d',
     },
+
+
+    // location: {
+    //     type: [Number],
+    //     index : '2d',
+    // },
 
     shopkeeper: {
         type:Boolean,
@@ -79,5 +87,7 @@ var UserSchema= db.Schema({
         default: Date.now,
     },
 });
+
+UserSchema.index({location:"2dsphere"});
 
 module.exports = db.model('User',UserSchema);
