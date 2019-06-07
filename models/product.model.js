@@ -120,7 +120,10 @@ var ProductSchema = db.Schema({
 
 
     productImages:[{
-        image1: String,
+        image1: {
+            type:String,
+            required : true,
+        },
         image2:String,
         image3:String,
     }],
@@ -144,22 +147,22 @@ var ProductSchema = db.Schema({
     
     review: [ReviewSchema],
 
-    categories:{ 
+    categories:[{ 
         type:mongoose.Schema.Types.ObjectId,
         ref: "Category"
-    },
+    }],
 
     status:{
         type:Boolean,
     },
 
   
-    create_date:{
+    created_at:{
         type:Date,
         default : Date.now
     },
 
-    updated_date:{
+    updated_at:{
         type:Date,
         default: Date.now,
     },

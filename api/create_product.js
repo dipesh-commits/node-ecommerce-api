@@ -53,13 +53,28 @@ function checkFileType(file,cb){
     }
 
 
+//getting the categories for adding the new product
+router.get('/',function(req,res,next){
+    Category.find({}).find(function(err,data){
+        if(err){
+            response= {"error":true,"message":data}
+        }else{
+            response = {"error":false,"message":data}
+        }
+        res.json(response);
+    });
+});
+
+
 //creating the product
 router.post('/',upload.array('productImages',3),function(req,res,next){
-    console.log(req.files);
+
     
-  
+    console.log(req.body);
+  try{
     
     const prod = new Product({
+        
         name: req.body.name,
         specs: {
         
@@ -106,24 +121,33 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
                 likes: req.body.likes,
             },  
 
-            created_at : Date.now(),
+            created_at :Date.now(),
             }],
         
         categories: req.body.categories,
 
         status:'1',
-        created_date : req.body.create_date,
-        updated_date : req.body.updated_date
+        created_at : Date.now,
+        updated_date : Date.now
     });
+
+    
 
     prod.save()
     .then(doc=>{
         console.log(JSON.stringify(doc,null,4));
         res.json(doc);
     })
-    .catch(err=>{
-        console.error(err);
-    })
+}
+
+    catch(err){
+        console.log(err.message);
+        res.json(err.message);
+    }
+    // catch(err=>{
+    //     console.error(err);
+    //     res.send(err);
+    // })
 });
 
 
@@ -197,23 +221,7 @@ router.put('/:id',function(req,res,next){
     
 });
 
-// router.post('/uploadimage',upload.array('image',3),(req,res)=>{
-//     console.log(req.files);
-//     res.json({'msg':'File uploaded successfully!',
-//         'file':req.files});
-//     });
-    
 
-//     console.log('req.myImage');
-//     upload(req,res,(err)=>{
-//         if(err){
-//             response={"error":true,"message":"Image uplaoded failed"}
-//         }else{
-//             response={"error":false,"message":req.file.filename}
-//             console.log(response);
-//         }
-//         res.json(response);
-//     });
 
 
 

@@ -8,25 +8,79 @@ const upload = multer();
 
 router.use(upload.array());
 
+//getting all the parent categories
+router.get('/',function(req,res,next){
+    var categories=[];
+    Category.find({parent:/^\/$/},function(err,data){
+            
 
 
-//getting the categories list
-router.get('/:categories',function(req,res){
-    category = req.params.categories;
-    
-
-    Product.find({"name":category},function(err,data){
-        if(err){
-            response = {"error":true , "message":data};
-        }else{
-            response = {"error":false , "message":data};
-        }
-        res.json(response);
-    
-
-    });
-   
+            // for(var i =0 ; i<data.length;i++){
+            //     console.log(categories[i].category);
+    // }
+    res.json(data);
 });
+        
+});
+
+//getting the categories next to the parent category
+router.get('/:secondcategory',function(req,res,next){
+    secondcategory = req.params.secondcategory;
+    console.log(secondcategory);
+    Category.find({"parent":{$regex:secondcategory}},function(err,data){
+        // if(err){
+        //     response = {"error":true,"message":data}
+        // }else{
+        //     response = {"error":false,"message":data}
+        // }
+        // console.log(response);
+        // res.json(response);
+        res.json(data);
+        console.log(data);
+    });
+});
+
+router.get('/:secondcategory/:thirdcategory',function(req,res,next){
+    secondcategory = req.params.secondcategory;
+    thirdcategory = req.params.thirdcategory;
+    Category.find({"parent":{$regex:secondcategory}},function(err,data){
+        if(err){
+            errresponse = {"error":true,"message":data}
+            res.json(errresponse);
+        }else{
+            Category.find({"name":{$regex:thirdcategory}},function(err,data){
+                if(err){
+                    response={"error":true,"message":data}
+                }else{
+                    response = {"error":false,"message":data}
+                }
+                res.json(response);
+
+            });
+            
+        }
+    });
+});
+
+
+
+// //getting the categories list
+// router.get('/:categories',function(req,res){
+//     category = req.params.categories;
+    
+
+//     Product.find({"name":category},function(err,data){
+//         if(err){
+//             response = {"error":true , "message":data};
+//         }else{
+//             response = {"error":false , "message":data};
+//         }
+//         res.json(response);
+    
+
+//     });
+   
+// });
 
 
 //adding the parent category

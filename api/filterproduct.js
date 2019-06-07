@@ -43,6 +43,19 @@ router.get('/',function(req,res,next){
 });
 
 
+//filtering the product
+router.get('/filter',function(req,res,next){
+    category = req.query.category;
+    Product.find({"categories":category},function(err,data){
+        if(err){
+            console.log(err);
+        }else
+        res.json(data);
+
+    });
+});
+
+
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
