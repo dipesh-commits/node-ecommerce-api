@@ -50,23 +50,23 @@ function checkFileType(file,cb){
     }
 
 
-router.post('/',upload.array('image',3),(req,res)=>{
+router.post('/',upload.array('productImage',3),(req,res)=>{
     console.log(req.files);
-    res.json({'msg':'File uploaded successfully!',
-        'file':req.files});
-    });
+    // res.json({'msg':'File uploaded successfully!',
+    //     'file':req.file});
+    // });
     
 
-//     console.log('req.myImage');
-//     upload(req,res,(err)=>{
-//         if(err){
-//             response={"error":true,"message":"Image uplaoded failed"}
-//         }else{
-//             response={"error":false,"message":req.file.filename}
-//             console.log(response);
-//         }
-//         res.json(response);
-//     });
+    // console.log('req.productImage');
+    // upload(req,res,(err)=>{
+    //     if(err){
+    //         response={"error":true,"message":"Image uplaoded failed"}
+    //     }else{
+    //         response={"error":false,"message":req.file.filename}
+    //         console.log(response);
+    //     }
+    //     res.json(response);
+    });
  
 
 module.exports = router;

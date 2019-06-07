@@ -10,7 +10,7 @@ const popular_items = require('./api/popular_itemroute');   //getting the popula
 const category = require('./api/categoriesroute');          //getting the category
 const create_product= require('./api/create_product');      //adding the product
 const product_detail = require('./api/product_details');    //viewing the individual product detail
-// const uploadimage = require('./api/uploadphoto');
+const uploadimage = require('./api/uploadphoto');
 const user=require('./api/user');                           //user details
 const search = require('./api/filterproduct');              //searching the items
 
@@ -35,7 +35,7 @@ app.use('/product',product_detail);
 app.use('/user',user);
 app.use('/search',search);
 
-// app.use('/uploadimage',uploadimage);
+app.use('/uploadimage',uploadimage);
 
 
 

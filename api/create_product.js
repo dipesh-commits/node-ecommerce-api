@@ -71,7 +71,8 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
 
     
     console.log(req.body);
-  try{
+    console.log(req.files);
+  
     
     const prod = new Product({
         
@@ -85,19 +86,19 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         size: [{
             size_value : req.body.size_value,
        
-        color_details : [{
-            color_value : req.body.color_value,
-            quantity : req.body.quantity
+            color_details : [{
+                        color_value : req.body.color_value,
+                        quantity : req.body.quantity
         }],
         }],
            tags: req.body.tags,
         },
         
-        productImages:[{
+        productImages:{
             image1:req.files[0].path,
             image2: req.files[1].path,
             image3: req.files[2].path,
-        }],
+        },
         
         brand: req.body.brand,
 
@@ -106,49 +107,62 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
 
         views:req.body.views,
 
-       rating:[{
-            userid:req.body.userid,
-            values: req.body.values
-    }],
+    //    rating:[{
+    //         userid:req.body.userid,
+    //         values: req.body.values
+    //     }],
 
-        review : [{
+    //     review : [{
 
-        user_id:req.body.user_id,
+    //     user_id:req.body.user_id,
             
-            comment_details:{
+    //         comment_details:{
 
-                comment: req.body.comment,
-                likes: req.body.likes,
-            },  
+    //             comment: req.body.comment,
+    //             likes: req.body.likes,
+    //         },  
 
-            created_at :Date.now(),
-            }],
+    //         created_at :Date.now,
+    //         }],
         
         categories: req.body.categories,
 
         status:'1',
-        created_at : Date.now,
-        updated_date : Date.now
+        created_at : Date.now(),
+        updated_at : Date.now()
     });
 
     
 
-    prod.save()
-    .then(doc=>{
-        console.log(JSON.stringify(doc,null,4));
-        res.json(doc);
-    })
-}
+    // prod.save(function(err,data){
+    //     if(err){
+    //         response = {"error":true,"message":data}
+    //     }else{
+    //         response = {"error":false,"message":data}
+    //     }
+    //     res.json(response);
 
-    catch(err){
-        console.log(err.message);
-        res.json(err.message);
-    }
-    // catch(err=>{
-    //     console.error(err);
-    //     res.send(err);
-    // })
-});
+    // });
+    prod.save()
+        .then(function(doc){
+            res.json(doc);
+        })
+
+//     .then(doc=>{
+//         // console.log(JSON.stringify(doc,null,4));
+//         res.json(doc);
+//     })
+// }
+
+    // catch(err){
+    //     // console.log(err.message);
+    //     res.json(err.message);
+    // }
+    .catch(err=>{
+        console.error(err);
+        res.send(err);
+    })
+ });
 
 
 

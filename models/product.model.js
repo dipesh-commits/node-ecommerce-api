@@ -57,11 +57,11 @@ var SpecsSchema = db.Schema({
 
     size:[SizeSchema],
 
-    tags: {
+    tags: [{
         type:String,
-        required: true,
-   },
-},{_id:false});
+        required: true
+   }
+        ]});
 
 
 //Rating Schema
@@ -159,12 +159,12 @@ var ProductSchema = db.Schema({
   
     created_at:{
         type:Date,
-        default : Date.now
+        
     },
 
     updated_at:{
         type:Date,
-        default: Date.now,
+        
     },
 
 });
