@@ -32,39 +32,76 @@ const Product = require('../models/product.model');
 //                 res.json(data);
 //                 }
 //             }
-        
+
 //         });
 //     }else{
 //         console.log("Search query not found");
 //     }
 
-        
+
 
 // });
 
 
 //filtering the product
-router.get('/filter',function(req,res,next){
-    var query={};
-    if(req.query.size){
-        query.size = req.query.size
-    }else if(req.query.color){
-        query.color = req.query.color
-    }else if(req.query.brand){
-        query.brand = req.query.brand
-    }else{
-        query.tags = req.query.tags
-    }
-    Product.find({$or:[{"brand":query.brand},{"tags":query.tags}]},function(err,data){
-        console.log(req.query);
-        
-        if(err){
-            console.log(err);
-        }else
-        res.json(data);
-        console.log(data.length);
+router.get('/filter', function(req, res, next) {
+    var query = {};
+    const { size, color, brand, tags } = req.query
+        // console.log(req.query)
+        // if (req.query.size) {
+        //     query.size = req.query.size
+        // } else if (req.query.color) {
+        //     query.color = req.query.color
+        // } else if (req.query.brand) {
+        //     query.brand = req.query.brand
+        // } else {
+        //     query.tags = req.query.tags
+        // }
 
-    });
+    Product.find({
+            $or: [{
+                    "specs.tags": {
+                        $in: query.tags
+                    }
+                },
+                {
+                    brand: brand
+                },
+                {
+                    "specs.size": {
+                        $elemMatch: {
+                            $or: [{
+                                    color_details: {
+                                        $elemMatch: {
+                                            color_value: color
+                                        }
+                                    }
+                                },
+                                {
+                                    size_value: size
+                                }
+                            ]
+
+                        }
+                    }
+                }
+            ]
+        }).then(product => {
+            console.log(product.length)
+            res.json(product)
+        }).catch(err => {
+            res.json(err)
+        })
+        // Product.find({ $or: [{ brand: query.brand }, {tags: query.tags }] }, function(err, data) {
+        //     console.log(data)
+
+    //     if (err) {
+    //         console.log(err);
+    //     } else
+    //         res.json(data);
+    //     console.log(data.length);
+
+    // });
 });
 
 
