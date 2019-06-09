@@ -70,8 +70,8 @@ router.get('/',function(req,res,next){
 router.post('/',upload.array('productImages',3),function(req,res,next){
 
     
-    console.log(req.body);
     console.log(req.files);
+
   
     
     const prod = new Product({
@@ -163,6 +163,9 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         res.send(err);
     })
  });
+
+ //update the rating and review of the product
+ 
 
 
 
@@ -256,7 +259,8 @@ router.put('/:id',function(req,res,next){
          }
      });
  });
- 
+
+
 
 
 module.exports = router;

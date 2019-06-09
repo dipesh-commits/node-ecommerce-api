@@ -119,14 +119,14 @@ var ProductSchema = db.Schema({
      specs: SpecsSchema , 
 
 
-    productImages:[{
+    productImages:{
         image1: {
             type:String,
             required : true,
         },
         image2:String,
         image3:String,
-    }],
+    },
 
     shop_id:{
         type: mongoose.Schema.Types.ObjectId,
