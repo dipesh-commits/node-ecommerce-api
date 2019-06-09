@@ -1,31 +1,32 @@
 {
-  "name": "ecommerce",
-  "version": "1.0.0",
-  "description": "My Project",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "project",
-    "ecommerce"
-  ],
-  "author": "Dipesh",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.16.4",
-    "libvips": "0.0.2",
-    "locus": "^2.0.1",
-    "mongoose": "^5.5.5",
-    "morgan": "^1.9.1",
-    "multer": "^1.4.1",
-    "nodemon": "^1.19.0",
-    "paginate": "^0.2.0",
-    "path": "^0.12.7",
-    "query-params-mongo": "^1.1.0",
-    "redis": "^2.8.0",
-    "sharp": "^0.22.1",
-    "validator": "^10.11.0"
-  }
+    "name": "ecommerce",
+    "version": "1.0.0",
+    "description": "My Project",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon index.js"
+    },
+    "keywords": [
+        "project",
+        "ecommerce"
+    ],
+    "author": "Dipesh",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.16.4",
+        "libvips": "0.0.2",
+        "locus": "^2.0.1",
+        "mongoose": "^5.5.5",
+        "morgan": "^1.9.1",
+        "multer": "^1.4.1",
+        "nodemon": "^1.19.1",
+        "paginate": "^0.2.0",
+        "path": "^0.12.7",
+        "query-params-mongo": "^1.1.0",
+        "redis": "^2.8.0",
+        "sharp": "^0.22.1",
+        "validator": "^10.11.0"
+    }
 }
