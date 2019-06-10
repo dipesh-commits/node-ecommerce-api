@@ -89,9 +89,7 @@ var ReviewSchema = db.Schema({
         comment:{
         type:String,
         },
-        likes:{
-            type:Number,
-        },
+     
     },
 
     created_at: {
@@ -138,9 +136,7 @@ var ProductSchema = db.Schema({
         required:true,
     },
 
-    views:{
-        type:Number,
-    },
+  
     
 
     rating: [RatingSchema],

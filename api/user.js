@@ -104,6 +104,7 @@ router.put('/:id/edit',upload.array("images",2),function(req,res,next){
     contact_no && (updateObj.contact_no = contact_no);
     
     updateObj.updated_at = Date.now();
+    
     updateObj.images = {
         shop_logo : req.files[0].path,
         shop_picture : req.files[1].path,
@@ -177,6 +178,10 @@ router.put('/:id/edit',upload.array("images",2),function(req,res,next){
 
 //signing up the user
 router.post('/',function(req,res,next){
+
+
+
+        // geo : [{lat:req.body.lat,lng:req.body.lng}],
     const user = new User({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -185,10 +190,11 @@ router.post('/',function(req,res,next){
         password : req.body.password,
         location:{
             type:"Point",
-            coordinates:[-112.1102492,36.098048]
+            coordinates:[-112.1102492,36.098048],
+            
         },
-        // geo : [{lat:req.body.lat,lng:req.body.lng}],
         followers : req.body.followers,
+        locationPlacename:req.body.locationPlacename,
         following : req.body.following,
 
 

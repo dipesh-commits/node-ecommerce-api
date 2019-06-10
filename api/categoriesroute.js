@@ -8,59 +8,59 @@ const upload = multer();
 
 router.use(upload.array());
 
-//getting all the parent categories
-router.get('/',function(req,res,next){
-    var categories=[];
-    Category.find({parent:/^\/$/},function(err,data){
+// //getting all the parent categories
+// router.get('/',function(req,res,next){
+//     var categories=[];
+//     Category.find({parent:/^\/$/},function(err,data){
             
 
 
-            // for(var i =0 ; i<data.length;i++){
-            //     console.log(categories[i].category);
-    // }
-    res.json(data);
-});
+//             // for(var i =0 ; i<data.length;i++){
+//             //     console.log(categories[i].category);
+//     // }
+//     res.json(data);
+// });
         
-});
+// });
 
-//getting the categories next to the parent category
-router.get('/:secondcategory',function(req,res,next){
-    secondcategory = req.params.secondcategory;
-    console.log(secondcategory);
-    Category.find({"parent":{$regex:secondcategory}},function(err,data){
-        // if(err){
-        //     response = {"error":true,"message":data}
-        // }else{
-        //     response = {"error":false,"message":data}
-        // }
-        // console.log(response);
-        // res.json(response);
-        res.json(data);
-        console.log(data);
-    });
-});
+// //getting the categories next to the parent category
+// router.get('/:secondcategory',function(req,res,next){
+//     secondcategory = req.params.secondcategory;
+//     console.log(secondcategory);
+//     Category.find({"parent":{$regex:secondcategory}},function(err,data){
+//         // if(err){
+//         //     response = {"error":true,"message":data}
+//         // }else{
+//         //     response = {"error":false,"message":data}
+//         // }
+//         // console.log(response);
+//         // res.json(response);
+//         res.json(data);
+//         console.log(data);
+//     });
+// });
 
-router.get('/:secondcategory/:thirdcategory',function(req,res,next){
-    secondcategory = req.params.secondcategory;
-    thirdcategory = req.params.thirdcategory;
-    Category.find({"parent":{$regex:secondcategory}},function(err,data){
-        if(err){
-            errresponse = {"error":true,"message":data}
-            res.json(errresponse);
-        }else{
-            Category.find({"name":{$regex:thirdcategory}},function(err,data){
-                if(err){
-                    response={"error":true,"message":data}
-                }else{
-                    response = {"error":false,"message":data}
-                }
-                res.json(response);
+// router.get('/:secondcategory/:thirdcategory',function(req,res,next){
+//     secondcategory = req.params.secondcategory;
+//     thirdcategory = req.params.thirdcategory;
+//     Category.find({"parent":{$regex:secondcategory}},function(err,data){
+//         if(err){
+//             errresponse = {"error":true,"message":data}
+//             res.json(errresponse);
+//         }else{
+//             Category.find({"name":{$regex:thirdcategory}},function(err,data){
+//                 if(err){
+//                     response={"error":true,"message":data}
+//                 }else{
+//                     response = {"error":false,"message":data}
+//                 }
+//                 res.json(response);
 
-            });
+//             });
             
-        }
-    });
-});
+//         }
+//     });
+// });
 
 
 
@@ -81,6 +81,37 @@ router.get('/:secondcategory/:thirdcategory',function(req,res,next){
 //     });
    
 // });
+
+
+//getting the category list as said by front end
+router.get('/allcategory',function(req,res,next){
+    var categories=[];
+        Category.find({parent:/^\/$/},{
+            name:1,
+            _id:0
+        },function(err,data){
+            
+               // categories=data;
+            //categories.push(data);
+            if(err){
+                res.json(err)
+            }else{
+                
+                for(var i =0 ; i<data.length;i++){
+                        categories.push(data[i]);
+                        Category.find({"parent":{$regex:categories[i].name}},function(err,data){
+                            if(err){
+                                res.json(err);
+                            }else{
+                                res.json(data);
+                            }
+                        })
+                        
+                  }
+                }
+
+    });
+})
 
 
 //adding the parent category
@@ -145,22 +176,5 @@ router.post('/childcategory/add',async function(req,res,next){
 
 
 
-//adding the categories list
-// router.post('/',function(req,res){
-//     const category = new Category({
-//         name:req.body.name,
-//         parent: req.body.parent,
-//         category : req.body.parent+req.body.name,
-//     });
-//     console.log(req.body);
-
-//     category.save()
-//     .then(function(doc){
-//         res.json(doc);
-//     })
-//     .catch(function(err){
-//         res.json(err);
-//     });
-// });
 
 module.exports = router;

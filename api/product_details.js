@@ -5,6 +5,7 @@ var db= require('../models/db');
 var Product= require('../models/product.model');
 var Category = require('../models/category.model');
 var User = require('../models/user.model');
+var Views= require('../models/product_views.model');
 
 //getting the product details //updating the rating of the product
  router.post('/update-rating',function(req,res,next){
@@ -84,7 +85,7 @@ router.get('/:id',function(req,res){
                     $push:{
                         rating:{
                             userid:userid,
-                            values:"14"
+                            values:req.body.values
                         }
                     }
                    
@@ -190,7 +191,66 @@ router.get('/:id',function(req,res){
     // {upsert:true}
  
 
+    //updating the review of the product
+    router.post('/update-review/:id',function(req,res,next){
+        var productid= req.params.id
+        var userid="5ce29c9ca2eb5026b70aca50";
+        var product_details=[];
+
+        Product.findOne({"_id":productid},function(err,data){
+            product_details.push(data);
+            
+            if(err){
+                res.json(err);
+                console.log(err);
+
+            }else{
+                shopid=product_details[0].shop_id;
+                Product.findOneAndUpdate({'_id':productid,"shop_id":shopid},
+                {
+                $push:{
+                    review:{
+                    user_id:userid,
+                    comment_details:{
+                        comment:req.body.comment
+                    }
+                }
+                }
+            },
+                function(err,data){
+                    if(err){
+                        res.json(err);
+                    }else{
+                        res.json(data);
+                        console.log("done");
+                    }
+                });
+        }
+        });
+    });
  
+
+
+    //posting the click value of the product to count the views
+    router.post('/click/:id',function(req,res,next){
+        var productid = req.params.id;
+        var click = new Date();
+        console.log(click);
+        Views.update({"product_id":productid},{
+            $push:{
+                view:{
+                    clickTime:click,
+                }
+            }
+        },{upsert:true},function(err,data){
+            if(err){
+                res.json(err)
+            }else{
+                res.json(data);
+            }
+        });
+        
+    });
     
     
 

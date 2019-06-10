@@ -31,8 +31,13 @@ var UserSchema= db.Schema({
         type:{
             type:String,
         },
-        coordinates:[]
+        coordinates:[],
+       
 
+    },
+
+    locationPlacename:{
+        type:String,
     },
 
 

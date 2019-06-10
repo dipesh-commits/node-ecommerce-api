@@ -4,7 +4,6 @@ var Product = require('../models/product.model');
 var db = require('../models/db');
 const path= require('path');
 const multer = require('multer');
-const sharp = require('sharp');
 
 
 //Creating the Storage engine
