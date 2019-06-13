@@ -31,7 +31,7 @@ router.get('/top-rated',function(req,res,next){
     if(err){
         response= {"error":true,"top_rated":data}
     }else{
-        response = {"error":false,"top_rated":data}
+        // response = {"error":false,"top_rated":data}
     }
     res.json(response);
 })
