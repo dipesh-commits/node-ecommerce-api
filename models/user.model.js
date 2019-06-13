@@ -24,7 +24,9 @@ var UserSchema= db.Schema({
 
 
     following:[{
-        type: mongoose.Schema.ObjectId,                 //following to other shops
+        shopid:{
+        type: String,                 //following to other shops
+        }
     }],
 
     location:{
@@ -70,7 +72,9 @@ var UserSchema= db.Schema({
 
 
     followers:[{
-        type:mongoose.Schema.Types.ObjectId,            //following by other shops
+        userid:{
+            type:String             //following by other people
+        }         
     }],
 
     pan_no:{

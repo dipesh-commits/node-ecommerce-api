@@ -23,10 +23,24 @@ router.get('/trending',function(req,res,next){
 
 //top-rated routes
 router.get('/top-rated',function(req,res,next){
+    var sixmonthsago = new Date(Date.now()-(180*24*60*60*1000));
+    console.log(sixmonthsago);
+    var now = new Date();
     Product.aggregate([
-        {$match:{"status":true}},
-        
         {
+            $match:
+            {
+                "status":true
+            },
+        },
+        {$match:{
+            created_at:{
+                $gte:sixmonthsago
+            }
+        }
+            
+        
+         }, {
             "$unwind":"$rating"
         },
         {
@@ -55,7 +69,12 @@ router.get('/top-rated',function(req,res,next){
                 "rating_avg":1,
                 "rating":1
             }
+        },{
+            $sort:{
+                "rating_avg":-1
+            }
         }
+        
         
 ],function(err,data){
     if(err){
