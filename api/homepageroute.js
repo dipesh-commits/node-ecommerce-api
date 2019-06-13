@@ -23,17 +23,49 @@ router.get('/trending',function(req,res,next){
 
 //top-rated routes
 router.get('/top-rated',function(req,res,next){
-    Product.find({
-        "status":1,
-        "rating.values":{$gt:7}
+    Product.aggregate([
+        {$match:{"status":true}},
+        
+        {
+            "$unwind":"$rating"
+        },
+        {
+            "$group":{
+                "_id":{
+                    "_id":"$_id",
+                    "name": "$name",
+                    "price":"$specs.price",
+                    "discount":"$specs.discount"
 
-},function(err,data){
+                },
+                "rating":{
+                    "$push":"$rating"
+                },
+                "rating_avg":{
+                    "$avg":"$rating.values"
+                }
+            }
+        },
+        {
+            "$project":{
+                "_id":0,
+                "name":"$_id.name",
+                "price":"$_id.price",
+                "discount":"$_id.discount",
+                "rating_avg":1,
+                "rating":1
+            }
+        }
+        
+],function(err,data){
     if(err){
-        response= {"error":true,"top_rated":data}
+        // response= {"error":true,"top_rated":data}
+        res.json(err);
     }else{
         response = {"error":false,"top_rated":data}
+        res.json(data)
     }
-    res.json(response);
+    // res.json(response);
 })
 });
 

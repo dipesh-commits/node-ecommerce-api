@@ -241,6 +241,109 @@ router.post('/',function(req,res,next){
 //         })
 // });
 
+//following the shop
+router.post('/follow/:id',function(req,res,next){
+    var shopid= req.params.id;
+    console.log(shopid);
+    var userid="5cebf007d4a8bb31c3b49ddd";
+
+    User.findByIdAndUpdate({"_id":shopid},{
+        $push:{
+            followers:{
+                userid:userid
+            }
+        }
+    },function(err,data){
+        if(err){
+            res.json(err)
+        }else{
+            User.findByIdAndUpdate({"_id":userid},{
+                $push:{
+                    following:{
+                        shopid:shopid,
+                    }
+                }
+            },function(err,data){
+                if(err){
+                    res.json(err)
+                }else{
+                    res.json(data);
+                }
+            });
+        }
+
+    });
+    
+    // Product.find({"_id":productid},function(err,data){
+    //         shop=data;
+    //         if(err){
+    //             res.json(err);
+    //         }else{
+                
+                
+    //             shopid=shop[0].shop_id;
+     
+    //                 User.findByIdAndUpdate({"_id":shopid},{
+    //                 $push:{
+    //                     followers:{
+    //                         userid:userid,
+    //                     }
+    //                 }
+    //                         },function(err,data){
+    //                             if(err){
+    //                                 res.json(err);
+    //                             }else{
+    //                                 User.findByIdAndUpdate({"_id":userid},{
+    //                                     $push:{
+    //                                         following:{
+    //                                             shopid:shopid,
+    //                                         }
+    //                                     }
+    //                                 },function(err,data){
+    //                                     if(err){
+    //                                         res.json(err)
+    //                                     }else{
+    //                                         res.json(data);
+    //                                     }
+    //                                 });
+    //                             }
+    //                         });
+    //                     }
+    //                         });
+                        });
+
+
+        //unfollow the shop
+        router.post("/unfollow/:id",function(req,res,next){
+            shopid= req.params.id;
+            userid="5cebf007d4a8bb31c3b49ddd";
+            User.findByIdAndUpdate({"_id":shopid},{
+                $pull:{
+                    following:{
+                        userid: userid
+                    }
+                }
+            },function(err,data){
+                if(err){
+                    res.json(err)
+                }else{
+                    User.findByIdAndUpdate({"_id":userid},{
+                        $pull:{
+                            following:{
+                                shopid:shopid,
+                            }
+                        }
+                    },function(err,data){
+                        if(err){
+                            res.json(err);
+                        }else{
+                            res.json(data);
+                        }
+                    });
+                }
+            });
+        });
+
 
 
 module.exports = router;
