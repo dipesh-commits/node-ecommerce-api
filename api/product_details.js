@@ -98,97 +98,13 @@ router.get('/:id',function(req,res){
                         
                         res.json(data);
                     }
-                });
-            
-
-
-            // for(let i=0;i<rating_userid[0].length;++i){
-            //     var existing_userid=rating_userid[0][i].userid;
-
-
-            //     if(existing_userid===userid){
-            //         Product.findOneAndUpdate({"rating.userid":existing_userid,"shop_id":shopid},
-                            
-            //                 {
-            //                     $set:{
-            //                         rating:{
-            //                             userid:userid,
-            //                             values:"20",
-            //                         }
-                                    
-            //                     }
-            //                 },
-            //                 function(err,data){
-            //                     if(err){
-            //                         console.log(err);
-            //                     }else{
-            //                         res.json(data);
-            //                     }
-
-            //                 });
-            //                 break;
-                            
-
-            //                      }
-            //                     else{
-                                    
-            //                 Product.findOneAndUpdate({"_id":productid,"shop_id":shopid},
-                            
-            //                 {
-            //                     $push:{
-                                    
-            //                             rating:
-            //                             {
-            //                                 userid:userid,
-            //                                 values:"9"
-            //                             }
-            //                             }
-                                
-            //                 },{upsert:true},function(err,data){
-            //                     if(err){
-            //                         console.log(err);
-            //                     }else{
-            //                         res.json(data);
-            //                     }
-
-            //                 });
-                            
-            //                     }
-            //                     }
-
-                            
-
-          
-
-            
-          
-            
+                });  
         }
 
     
         
     });
 });
-
-       
-        
-    
-        
-        
-   
-
-    
-
-    // await Product.findOneAndUpdate({"shop_id":shopid,"rating.values":rating_values},
-    // {
-    //     $set:{
-    //         rating:{
-    //             userid:'5cebf0bdd4a8bb31c3b49de1',
-    //             values: req.body.values
-    //         }
-    //     }
-    // },
-    // {upsert:true}
  
 
     //updating the review of the product

@@ -10,14 +10,82 @@ var User = require('../models/user.model');
 
 //trending routes
 router.get('/trending',function(req,res,next){
-    Product.find({}).sort({'created_at':-1}).find(function(err,data){
-        if(err){
-            response = {"error":true,"trending_items":data}
-        }else{
-            response ={"error":false,"trending_items":data}
+    const twoweekago = new Date(Date.now()-(14*24*60*60*1000));
+    console.log(twoweekago);
+    Product.aggregate([
+        {
+            $match:{
+                "status":true
+            },
+        },{
+            
+                $match:{
+                    "updated_at":{$gt:twoweekago}
+                }
+        },
+        {
+            $match:{
+                views:{
+                    $gt:20
+                }
+            }
+        },  
+        {
+            $group:{
+                "_id":{
+                    "_id":"$_id",
+                    "name":"$name",
+                    "price":"$specs.price",
+                    "discount":"$specs.discount",
+                    "views":"$views",
+                    
+
+                },
+                "time":{
+                    $push:"twoweekago-$updated_at"
+                },
+                "score":{
+                    $push:("$time"+"$views")/2
+                }
+            },
+            
+            // "score": {
+            //     "$avg":"$updated_at"+"$views"
+            // }
+            
+        },
+          
+        {
+        $project:{
+            "_id":0,
+            "name":"$_id.name",
+            "price":"$_id.price",
+            "discount":"$_id.discount",
+            "views":"$_id.views",
+            
+        
         }
-        res.json(response);
+    },{
+        $sample:{
+            size:50
+        }
+    }
+        
+    ],function(err,data){
+        if(err){
+            res.json(err);
+        }else{
+            res.json(data);
+        }
     })
+    // Product.find({}).sort({'created_at':-1}).find(function(err,data){
+    //     if(err){
+    //         response = {"error":true,"trending_items":data}
+    //     }else{
+    //         response ={"error":false,"trending_items":data}
+    //     }
+    //     res.json(response);
+    // })
 })
 
 
@@ -33,7 +101,8 @@ router.get('/top-rated',function(req,res,next){
                 "status":true
             },
         },
-        {$match:{
+        {
+            $match:{
             created_at:{
                 $gte:sixmonthsago
             }
@@ -78,30 +147,30 @@ router.get('/top-rated',function(req,res,next){
         
 ],function(err,data){
     if(err){
-        // response= {"error":true,"top_rated":data}
-        res.json(err);
+        response= {"error":true,"top_rated":data}
+        
     }else{
         response = {"error":false,"top_rated":data}
-        res.json(data)
+        
     }
-    // res.json(response);
+    res.json(response);
 })
 });
 
-//popular items
-router.get('/popular-items',function(req,res,next){
-    Product.find({
-        'status': 1,
-        'views':{$gt:300},
-    },function(err,data){
-        if(err){
-            response={"error":true,"popular_items":data}
-        }else{
-            response = {"error":false , "popular_items":data}
-        }
-        res.json(response);
-    });
-});
+// //popular items
+// router.get('/popular-items',function(req,res,next){
+//     Product.find({
+//         'status': 1,
+//         'views':{$gt:300},
+//     },function(err,data){
+//         if(err){
+//             response={"error":true,"popular_items":data}
+//         }else{
+//             response = {"error":false , "popular_items":data}
+//         }
+//         res.json(response);
+//     });
+// });
 
 router.get('/nearby-items',function(req,res,next){
     User.find({

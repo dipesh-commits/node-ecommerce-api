@@ -109,24 +109,6 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         shop_id : req.body.shop_id,
 
         views:req.body.views,
-
-    //    rating:[{
-    //         userid:req.body.userid,
-    //         values: req.body.values
-    //     }],
-
-    //     review : [{
-
-    //     user_id:req.body.user_id,
-            
-    //         comment_details:{
-
-    //             comment: req.body.comment,
-    //             likes: req.body.likes,
-    //         },  
-
-    //         created_at :Date.now,
-    //         }],
         
         categories: req.body.categories,
 
