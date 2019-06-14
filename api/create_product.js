@@ -71,27 +71,30 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
 
     
     console.log(req.files);
+    console.log(req.body);
+    a= JSON.parse(req.body.specs);
+    console.log(a);
 
   
-    
+    for(var i=0;i<a.size.length;i++)
+    {
+        for(var j=0;j<a.size[i].color_details.length;j++)
+        {
+        a.size[i].color_details[j].quantity=Number(a.size[i].color_details[j].quantity);
+        }
+    }
+    console.log(a.size[0].color_details[0]);
     const prod = new Product({
         
         name: req.body.name,
         specs: {
         
-        description: req.body.description,
-        price: req.body.price,
-        discount: req.body.discount,
-        gender: req.body.gender,
-        size: [{
-            size_value : req.body.size_value,
-       
-            color_details : [{
-                        color_value : req.body.color_value,
-                        quantity : req.body.quantity
-        }],
-        }],
-           tags: req.body.tags,
+        description: a.description,
+        price: Number(a.price),
+        discount: Number(a.discount),
+        gender: a.gender,
+        size: a.size,
+        tags: a.tags,
         },
         
         productImages:{
@@ -132,7 +135,7 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
         updated_at : Date.now()
     });
 
-    
+        console.log("yo line");
 
     // prod.save(function(err,data){
     //     if(err){
@@ -145,22 +148,14 @@ router.post('/',upload.array('productImages',3),function(req,res,next){
     // });
     prod.save()
         .then(function(doc){
+            console.log(doc);
             res.json(doc);
         })
 
-//     .then(doc=>{
-//         // console.log(JSON.stringify(doc,null,4));
-//         res.json(doc);
-//     })
-// }
 
-    // catch(err){
-    //     // console.log(err.message);
-    //     res.json(err.message);
-    // }
     .catch(err=>{
         console.error(err);
-        res.send(err);
+        res.json(err);
     })
  });
 
