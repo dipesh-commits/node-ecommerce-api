@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const db = require('./db');
+var aggregatePaginate = require('mongoose-aggregate-paginate');
+ 
 
 
 
@@ -172,6 +174,8 @@ ProductSchema.index({name:"text",gender:"text"},{
         description:5,
     },
 });
+
+ProductSchema.plugin(aggregatePaginate);
 
 
 module.exports = db.model('Product',ProductSchema);             //Exporting the model

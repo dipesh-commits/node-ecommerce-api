@@ -3,6 +3,9 @@ const router = express.Router();
 var Product = require('../models/product.model');
 var User = require('../models/user.model');
 const mongoose = require('mongoose');
+var mongooseAggregatePaginate = require('mongoose-aggregate-paginate');
+
+
 
 
 
@@ -260,17 +263,73 @@ router.get('/nearby-items',async function(req,res,next){
 
 //get all the remaining items
 router.get('/products',function(req,res,next){
-    
-    Product.find({"status":1},function(err,data){
+
+    var aggregate= Product.aggregate();
+    aggregate.match({"status":true}).group({_id:'$_id',count:{'$sum':1}})
+    var options = {page:1,limit:15}
+
+    Product.aggregatePaginate(aggregate,options,function(err,results,pageCount,count){
         if(err){
-            response={"error":true,"message":data}
+            res.json(err);
+            console.log(err)
         }else{
-            response={"error":false,"message":data}
-            
+            console.log(results);
         }
-        res.json(response);
-    })
-})
+    });
+    
+//     Product.aggregate([
+//         {
+//             $match:{
+//                 "status":true
+//             },
+//         },{
+//             $group:{
+//                 "_id":{
+//                 "_id":"$_id",
+//                 "name":"$name",
+//                 "price":"$specs.price",
+//                 "discount":"$specs.discount",
+//                 "views":"$views"
+//             }
+//         }
+//         },
+//         // {
+//         //     $group:{
+//         //         _id:1,
+//         //         total:{
+//         //             $sum:1
+//         //         },
+               
+                
+                
+//         //     }
+//         // },
+//         {
+//             $project:{
+//                 "_id":0,
+//                 // "total_items":"$total",
+//                 "name":"$_id.name",
+//                 "price":"$_id.price",
+//                 "discount":"$_id.discount",
+//                 "views":"$_id.views"
+//             }
+//         },
+//         {
+//             $sort:{"created_at":-1}
+//         },
+//         {$skip:0},
+//         {$limit:10}
+
+
+
+// ],function(err,data){
+//     if(err){
+//         res.json(err)
+//     }else{
+//         res.json(data);
+//     }
+// });
+ });
 
     
     
