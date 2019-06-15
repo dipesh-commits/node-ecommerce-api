@@ -86,32 +86,35 @@ router.use(upload.array());
 //getting the category list as said by front end
 router.get('/allcategory',function(req,res,next){
     var categories=[];
-        Category.find({parent:/^\/$/},{
-            name:1,
-            _id:0
-        },function(err,data){
+        Category.find({"parent":/^\/$/},function(err,data){
             
-               // categories=data;
-            //categories.push(data);
+            categories=data;
+            // categories.push(data);
             if(err){
-                res.json(err)
+                res.send(err);
             }else{
-                
-                for(var i =0 ; i<data.length;i++){
-                        categories.push(data[i]);
-                        Category.find({"parent":{$regex:categories[i].name}},function(err,data){
-                            if(err){
-                                res.json(err);
-                            }else{
-                                res.json(data);
-                            }
-                        })
+                for(i=0;i<categories.length;i++){
+                    name1=categories[i].name;
+                    Category.find({parent:{$regex:name1}
                         
-                  }
-                }
+                    },function(err,data){
+                        if(err){
+                            res.json(err)
+                        }else{
+                            res.json(data);
+                        }
+                
+                
+                
 
+                
+            
+            });
+                }
+        }
     });
-})
+
+});
 
 
 //adding the parent category

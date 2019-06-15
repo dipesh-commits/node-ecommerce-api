@@ -41,7 +41,7 @@ app.use('/uploadimage',uploadimage);
 
 //listening to the port
 
-app.listen(4000,function(){
+app.listen(3000,function(){
 console.log('Listening to port number 4000');
 });
 

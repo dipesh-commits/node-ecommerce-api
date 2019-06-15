@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 var Product = require('../models/product.model');
-var db = require('../models/db');
 var User = require('../models/user.model');
+const mongoose = require('mongoose');
 
 
 
@@ -57,7 +57,7 @@ router.get('/trending',function(req,res,next){
           
         {
         $project:{
-            "_id":0,
+            "_id":1,
             "name":"$_id.name",
             "price":"$_id.price",
             "discount":"$_id.discount",
@@ -118,7 +118,8 @@ router.get('/top-rated',function(req,res,next){
                     "_id":"$_id",
                     "name": "$name",
                     "price":"$specs.price",
-                    "discount":"$specs.discount"
+                    "discount":"$specs.discount",
+                    "views":"views"
 
                 },
                 "rating":{
@@ -131,10 +132,11 @@ router.get('/top-rated',function(req,res,next){
         },
         {
             "$project":{
-                "_id":0,
+                "_id":1,
                 "name":"$_id.name",
                 "price":"$_id.price",
                 "discount":"$_id.discount",
+                "views":"$_id.views",
                 "rating_avg":1,
                 "rating":1
             }
@@ -172,28 +174,87 @@ router.get('/top-rated',function(req,res,next){
 //     });
 // });
 
-router.get('/nearby-items',function(req,res,next){
-    User.find({
+router.get('/nearby-items',async function(req,res,next){
+    var shop=[];
+   await User.find({
         'shopkeeper':1,
         'location':{
             $near:{
-                $maxDistance :1000,
+                
                 $geometry:{
                     type:"Point",
                     coordinates:[-110.93303,40.38929]
-                }
+                },
+                $maxDistance :2000000,
+                $minDistance:0
             }
         }
         
-    },function(err,data){
+    },async function(err,data){
         if(err){
-            response ={"error":true,"nearby_items":data}
+            res.json(err);
             
         }else{
-            response = {"error":false,"nearby_items":data}
-        }
-        res.json(response);
-    })
+            console.log(data);
+            shop.push(data);
+            
+            var product_data=[];
+            var shopid=[];
+            for(var i=0;i<shop[0].length;i++)
+            {
+                 shopid.push(mongoose.Types.ObjectId(shop[0][i].id));
+            }
+    
+               await Product.aggregate([
+                   {
+                       $match:{
+                           "status":true
+                       }
+                   },{
+                       $match:{
+                           shop_id:{"$in":shopid}
+                       }
+                   },{
+                       $group:{
+                           "_id":{
+                               "_id":"$_id",
+                               "name":"$name",
+                               "price":"$specs.price",
+                               "discount":"$specs.discount",
+                               "views":"$views"
+                           }
+                       }
+                   },{
+                       $project:{
+                           "_id":0,
+                           "id":"$_id._id",
+                           "name":"$_id.name",
+                           "price":"$_id.price",
+                           "discount":"$_id.discount",
+                           "views":"$_id.views"
+                       }
+                   }
+               ],function(err,datas){
+                    if(err){
+                        res.json(err);
+                    }
+                    else{
+                        console.log(datas.length);
+                        if(datas.length!=0)
+                        product_data=datas;                        
+                        
+                        
+                    }
+                });
+                
+            }
+            
+            res.json(product_data);
+            
+            
+        
+        
+    });
 });
 
 
