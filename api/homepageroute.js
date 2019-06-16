@@ -263,19 +263,32 @@ router.get('/nearby-items',async function(req,res,next){
 
 //get all the remaining items
 router.get('/products',function(req,res,next){
-
-    var aggregate= Product.aggregate();
-    aggregate.match({"status":true}).group({_id:'$_id',count:{'$sum':1}})
-    var options = {page:1,limit:15}
-
-    Product.aggregatePaginate(aggregate,options,function(err,results,pageCount,count){
+    var itemsPerPage = 10;
+    var start = parseInt(req.query.start)||0;
+    Product.find({"status":true},
+    {
+       start:start,limit:10
+    },function(err,data){
         if(err){
             res.json(err);
-            console.log(err)
         }else{
-            console.log(results);
+            res.json(data);
         }
-    });
+    })
+
+
+    // var aggregate= Product.aggregate();
+    // aggregate.match({"status":true}).group({_id:'$_id',count:{'$sum':1}})
+    // var options = {page:1,limit:15}
+
+    // Product.aggregatePaginate(aggregate,options,function(err,results,pageCount,count){
+    //     if(err){
+    //         res.json(err);
+    //         console.log(err)
+    //     }else{
+    //         console.log(results);
+    //     }
+    // });
     
 //     Product.aggregate([
 //         {
