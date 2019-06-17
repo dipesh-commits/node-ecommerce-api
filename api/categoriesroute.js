@@ -121,9 +121,7 @@ router.get('/allcategory',function(req,res,next){
 router.post('/parentcategory/add',function(req,res,next){
     console.log(req.body);
     var category = new Category({
-        name : req.body.name,
-        parent : '/',
-        category : '/'+req.body.name,
+        parent_name: req.body.category,
         created_at:Date.now(),
         updated_at : Date.now(),
     });
