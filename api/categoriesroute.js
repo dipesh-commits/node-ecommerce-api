@@ -83,45 +83,45 @@ router.use(upload.array());
 // });
 
 
-//getting the category list as said by front end
-router.get('/allcategory',function(req,res,next){
-    var categories=[];
-        Category.find({"parent":/^\/$/},function(err,data){
+// //getting the category list as said by front end
+// router.get('/allcategory',function(req,res,next){
+//     var categories=[];
+//         Category.find({"parent":/^\/$/},function(err,data){
             
-            categories=data;
-            // categories.push(data);
-            if(err){
-                res.send(err);
-            }else{
-                for(i=0;i<categories.length;i++){
-                    name1=categories[i].name;
-                    Category.find({parent:{$regex:name1}
+//             categories=data;
+//             // categories.push(data);
+//             if(err){
+//                 res.send(err);
+//             }else{
+//                 for(i=0;i<categories.length;i++){
+//                     name1=categories[i].name;
+//                     Category.find({parent:{$regex:name1}
                         
-                    },function(err,data){
-                        if(err){
-                            res.json(err)
-                        }else{
-                            res.json(data);
-                        }
+//                     },function(err,data){
+//                         if(err){
+//                             res.json(err)
+//                         }else{
+//                             res.json(data);
+//                         }
                 
                 
                 
 
                 
             
-            });
-                }
-        }
-    });
+//             });
+//                 }
+//         }
+//     });
 
-});
+// });
 
 
 //adding the parent category
 router.post('/parentcategory/add',function(req,res,next){
     console.log(req.body);
     var category = new Category({
-        parent_name: req.body.category,
+        parent_category_name: req.body.category,
         created_at:Date.now(),
         updated_at : Date.now(),
     });
@@ -135,6 +135,23 @@ router.post('/parentcategory/add',function(req,res,next){
 
 
 });
+
+//adding the child category
+router.post("/childcategory/:parentcategory",function(req,res,next){
+    parentcategory = req.params.parentcategory;
+    Category.update({"parent_name":parentcategory},
+    {
+        $push:{
+            child_category_name: req.body.childcategory
+        }
+    },{upsert:true},function(err,data){
+        if(err){
+            res.json(err);
+        }else{
+            res.json(data);
+        }
+    })
+})
 
 
 //adding the child category list

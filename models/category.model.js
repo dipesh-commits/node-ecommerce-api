@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const db = require('./db');
 
 var CategorySchema = db.Schema({
-    parent_name:String,            //name: mobile
+    parent_name:String,            //name: electronics
     
     created_at : Date,
     updated_at: Date,
