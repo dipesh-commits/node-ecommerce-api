@@ -122,6 +122,7 @@ router.post('/parentcategory/add',function(req,res,next){
     console.log(req.body);
     var category = new Category({
         parent_category_name: req.body.category,
+       
         created_at:Date.now(),
         updated_at : Date.now(),
     });
@@ -139,12 +140,14 @@ router.post('/parentcategory/add',function(req,res,next){
 //adding the child category
 router.post("/childcategory/:parentcategory",function(req,res,next){
     parentcategory = req.params.parentcategory;
-    Category.update({"parent_name":parentcategory},
+    Category.update({"parent_category_name":parentcategory},
     {
+        
         $push:{
-            child_category_name: req.body.childcategory
-        }
-    },{upsert:true},function(err,data){
+            child_category_name: req.body.child_category,
+        
+    }
+    },{strict:false},function(err,data){
         if(err){
             res.json(err);
         }else{
@@ -154,40 +157,32 @@ router.post("/childcategory/:parentcategory",function(req,res,next){
 })
 
 
+
+
+
 //adding the child category list
-router.get('/childcategory/add',function(req,res,next){
-    Category.find({},function(err,data){
+router.post("/childsubcategory/:parentcategory/:childcategory",async function(req,res,next){
+    parentcategory = req.params.parentcategory;
+    childcategory = req.params.childcategory;
+    await Category.find({"parent_category_name":parentcategory},async function(err,data){
         if(err){
             res.json(err);
         }else{
-            res.json(data);
+            await Category.update({"child_category_name":childcategory},{
+                $push:{
+                    child_subcategory_name : req.body.child_subcategory
+                }
+            },{strict:false},function(err,data){
+                if(err){
+                    res.json(err);
+                }else{
+                    res.json(data);
+                }
+            })
         }
-        console.log(data);
-    });
-});
-
-
-router.post('/childcategory/add',async function(req,res,next){
-     var parent_category = [];
-    await Category.find({}).select('parent').find(function(err,data){
-        parent_category.push(data);
-    });
-    console.log(parent_category);
-    
-    var category= new Category({
-        name : req.body.childname,
-        parent : req.body.parent,
-        category : req.body.parent+'/'+req.body.childname,
     })
-    category.save()
-    .then(function(doc){
-        res.json(doc);
-    })
-    .catch(function(err){
-        console.error(err);
-    })
+})
 
-});
 
 
 

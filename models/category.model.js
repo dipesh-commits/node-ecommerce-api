@@ -2,7 +2,15 @@ const mongoose = require('mongoose');
 const db = require('./db');
 
 var CategorySchema = db.Schema({
-    parent_name:String,            //name: electronics
+    parent_category_name:{
+        type:String,
+        child_category_name:[{
+            type:String,
+            child_subcategory_name:[{
+                type:String
+            }]
+        }]
+    },           //name: electronics
     
     created_at : Date,
     updated_at: Date,

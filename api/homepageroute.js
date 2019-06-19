@@ -267,7 +267,7 @@ router.get('/products',function(req,res,next){
     var start = parseInt(req.query.start)||0;
     Product.find({"status":true},
     {
-       start:start,limit:10
+       
     },function(err,data){
         if(err){
             res.json(err);
