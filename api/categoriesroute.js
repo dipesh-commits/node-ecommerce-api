@@ -5,6 +5,8 @@ var Product = require('../models/product.model');
 const Category= require('../models/category.model');
 const multer = require('multer');
 const upload = multer();
+const mongoose = require('mongoose');
+
 
 router.use(upload.array());
 
@@ -121,7 +123,7 @@ router.use(upload.array());
 router.post('/parentcategory/add',function(req,res,next){
     console.log(req.body);
     var category = new Category({
-        parent_category_name: req.body.category,
+        parent_category_name: req.body.parent_category,
        
         created_at:Date.now(),
         updated_at : Date.now(),
@@ -144,6 +146,7 @@ router.post("/childcategory/:parentcategory",function(req,res,next){
     {
         
         $push:{
+            
             child_category_name: req.body.child_category,
         
     }
