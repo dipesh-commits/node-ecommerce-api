@@ -6,6 +6,8 @@ const Category= require('../models/category.model');
 const multer = require('multer');
 const upload = multer();
 const mongoose = require('mongoose');
+var ObjectID = require('mongodb').ObjectID;
+var Schema = new mongoose.Schema;
 
 
 router.use(upload.array());
@@ -118,6 +120,17 @@ router.use(upload.array());
 
 // });
 
+//get all the categories
+router.get('/getall',function(req,res,next){
+    Category.find({},function(err,data){
+        if(err){
+            res.json(err);
+        }else{
+            res.json(data);
+        }
+    });
+});
+
 
 //adding the parent category
 router.post('/parentcategory/add',function(req,res,next){
@@ -146,10 +159,13 @@ router.post("/childcategory/:parentcategory",function(req,res,next){
     {
         
         $push:{
+            parent_category_name:{
+            _id:new ObjectID(),
             
             child_category_name: req.body.child_category,
         
     }
+}
     },{strict:false},function(err,data){
         if(err){
             res.json(err);
