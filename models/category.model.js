@@ -7,19 +7,19 @@ var ChildSubcategorySchema= db.Schema({
 });
 
 var ChildCategorySchema =db.Schema({
-    
+    type: String,
     child_subcategory_name:[
         ChildSubcategorySchema
     ]
 });
 
 var CategorySchema = db.Schema({
-    parent_category_name:[{
+    parent_category_name:{
         type:String,
         child_category_name:[
             ChildCategorySchema
         ]
-        }],           
+        },           
     
     created_at : Date,
     updated_at: Date,

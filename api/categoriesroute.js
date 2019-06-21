@@ -159,16 +159,17 @@ router.post("/childcategory/:parentcategory",function(req,res,next){
     {
         
         $push:{
-            parent_category_name:{
+            child_category_name:{
             _id:new ObjectID(),
             
-            child_category_name: req.body.child_category,
+            child_category: req.body.child_category,
         
     }
 }
     },{strict:false},function(err,data){
         if(err){
             res.json(err);
+            console.log(err);
         }else{
             res.json(data);
         }
@@ -180,24 +181,38 @@ router.post("/childcategory/:parentcategory",function(req,res,next){
 
 
 //adding the child category list
-router.post("/childsubcategory/:parentcategory/:childcategory",async function(req,res,next){
+router.post("/childsubcategory/:parentcategory/:childcategory", function(req,res,next){
     parentcategory = req.params.parentcategory;
     childcategory = req.params.childcategory;
-    await Category.find({"parent_category_name":parentcategory},async function(err,data){
+     Category.find({"parent_category_name":parentcategory}, function(err,data){
         if(err){
             res.json(err);
         }else{
-            await Category.update({"child_category_name":childcategory},{
-                $push:{
-                    child_subcategory_name : req.body.child_subcategory
-                }
-            },{strict:false},function(err,data){
+            var child_category_names=[];
+            
+             Category.find({"child_category_name.child_category":childcategory},function(err,data1){
                 if(err){
                     res.json(err);
                 }else{
-                    res.json(data);
+                    
+                    child_category_names=data1[0].child_category;
+                    console.log(child_category_names);
                 }
-            })
+            });
+            // await Category.update({"child_category":childcategory},{
+            //     child_subcategory_name:{
+            //     $push:{
+            //         _id:new ObjectID(),
+            //         child_subcategory : req.body.child_subcategory
+            //     }
+            // }
+            // },{strict:false},function(err,data){
+            //     if(err){
+            //         res.json(err);
+            //     }else{
+            //         res.json(data);
+            //     }
+            // })
         }
     })
 })
