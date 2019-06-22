@@ -189,14 +189,25 @@ router.post("/childsubcategory/:parentcategory/:childcategory", function(req,res
             res.json(err);
         }else{
             var child_category_names=[];
+            child_category_names=data[0].child_category_name;
+
+            console.log(child_category_names);
+
+            // var child_category=[];
+            // for(var i=0;i<child_category_names[0].length;i++){
+            //     child_category.push(child_category_names[0].child_category_name);
+            // }
+
+            // console.log(child_category);
+            
             
              Category.find({"child_category_name.child_category":childcategory},function(err,data1){
                 if(err){
                     res.json(err);
                 }else{
                     
-                    child_category_names=data1[0].child_category;
-                    console.log(child_category_names);
+                    
+                    
                 }
             });
             // await Category.update({"child_category":childcategory},{

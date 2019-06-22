@@ -7,7 +7,7 @@ var ChildSubcategorySchema= db.Schema({
 });
 
 var ChildCategorySchema =db.Schema({
-    type: String,
+    type:Object,
     child_subcategory_name:[
         ChildSubcategorySchema
     ]
@@ -15,7 +15,7 @@ var ChildCategorySchema =db.Schema({
 
 var CategorySchema = db.Schema({
     parent_category_name:{
-        type:String,
+        type:Object,
         child_category_name:[
             ChildCategorySchema
         ]
