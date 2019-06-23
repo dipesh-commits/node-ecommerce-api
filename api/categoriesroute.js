@@ -184,14 +184,89 @@ router.post("/childcategory/:parentcategory",function(req,res,next){
 router.post("/childsubcategory/:parentcategory/:childcategory", function(req,res,next){
     parentcategory = req.params.parentcategory;
     childcategory = req.params.childcategory;
-     Category.find({"parent_category_name":parentcategory}, function(err,data){
-        if(err){
-            res.json(err);
-        }else{
-            var child_category_names=[];
-            child_category_names=data[0].child_category_name;
+    //  Category.find({"parent_category_name":parentcategory}, function(err,data){
+    //     if(err){
+    //         res.json(err);
+    //     }else
+    //     {
+    //  
 
-            console.log(child_category_names);
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+
+     // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+     // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+     // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+    // Dipesh, timro resume send garana malai. Ma ekchoti herchu
+
+
+
+
+
+
+
+
+
+
+
+
+    Category.find({"parent_category_name":parentcategory}).lean().then(doc=>
+        {    
+    var a=doc[0];
+            // var child_category_names=[];
+            //child_category_names=data[0].child_category_name;
+            console.log(a.child_category_name[0].child_category);
+            // console.log(data[0].child_category_name);
 
             // var child_category=[];
             // for(var i=0;i<child_category_names[0].length;i++){
@@ -225,8 +300,12 @@ router.post("/childsubcategory/:parentcategory/:childcategory", function(req,res
             //     }
             // })
         }
+    ).catch(err=>{
+        console.log(err);
     })
-})
+;
+});
+    
 
 
 
