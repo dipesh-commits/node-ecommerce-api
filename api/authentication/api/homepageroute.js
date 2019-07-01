@@ -198,7 +198,7 @@ router.get('/nearby-items',async function(req,res,next){
             res.json(err);
             
         }else{
-        
+            console.log(data);
             shop.push(data);
             
             var product_data=[];

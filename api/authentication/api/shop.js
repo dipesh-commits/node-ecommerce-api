@@ -4,12 +4,10 @@ const router = express.Router();
 const User = require('../models/user.model'); 
 const Shop = require('../models/shop.model.js');
 const Product = require('../models/product.model');
-const passportJWT = passport.authenticate('jwt', { session: false });
-
 
 
 //viewing other's profile
-router.get('/:id',passportJWT,function(req,res){
+router.get('/:id',function(req,res){
     shop_id = req.params.id;
     User.findOne({"_id":shop_id,"shopkeeper":1},async function(err,data){
 
