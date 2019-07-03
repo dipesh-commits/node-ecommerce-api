@@ -15,7 +15,7 @@ const category = require('./api/categoriesroute');          //getting the catego
 const create_product= require('./api/create_product');      //adding the product
 const product_detail = require('./api/product_details');    //viewing the individual product detail
 const uploadimage = require('./api/uploadphoto');
-const user=require('./api/user');                           //user details
+// const user=require('./api/user');                           //user details
 const search = require('./api/filterproduct');              //searching the items
 
 //authentication routes
@@ -24,7 +24,7 @@ const adminsignup = require('./api/authentication/routes/admin/signup');    //ad
 const superadminlogin = require('./api/authentication/routes/superadmin/login');
 const userlogin = require('./api/authentication/routes/User/user');
 const user_google_fb_login = require('./api/authentication/routes/User/googlefblogin')
-const shopuser = require('./api/authentication/routes/User/shopkeeper/shopuser');
+const shopuser = require('./api/user_profie/shopkeeper/shopuser');
 const logout = require('./api/authentication/routes/logout');
 
 var app= express();
@@ -70,7 +70,7 @@ app.use('/popular-items',popular_items);
 app.use('/category',category);
 app.use('/add-product',create_product);
 app.use('/product',product_detail);
-app.use('/user',user);
+// app.use('/user',user);
 app.use('/search',search);
 
 app.use('/uploadimage',uploadimage);

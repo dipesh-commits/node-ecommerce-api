@@ -8,7 +8,8 @@ const mailer = require('../MISC/mailer');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 var MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost/27017/1';
+const url2 =require("../configuration");
+const url = url2.url;
 const multer = require('multer');
 const upload = multer();
 router.use(upload.array());
@@ -36,7 +37,7 @@ module.exports=
       console.log(user);
    MongoClient.connect(url, { useNewUrlParser: true } , function(err, db) {
    if (err) throw err;
-   var dbo = db.db("1");
+   var dbo = db.db("EcommerceDB");
 //        id=new MongoId
     console.log(user.local.email);
    var myquery = {'local.email':user.local.email};
@@ -72,20 +73,29 @@ module.exports=
         if(req.user.local.status==='0')
          {
                  const secretToken = Math.floor(Math.random()*9000);
+                 console.log("url"+ url);
+                 console.log(secretToken);
+                  User.findOneAndUpdate({'local.email':req.user.local.email},{$set:{'local.secretToken':secretToken}},{new:true},(err,doc)=>{
+                 if(err){
+                   console.log('Error generated');
+                 }else{
+                 console.log(doc); 
+                 }
+                
+            });
+        //          MongoClient.connect(url, function(err, db) {
+        //          if (err) throw err;
+        //          //var dbo = db.db("EcommerceDB");
+        //  //        id=new MongoId
+        //          var myquery = {'local.email':req.user.local.email};
 
-                 MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
-                 if (err) throw err;
-                 var dbo = db.db("1");
-         //        id=new MongoId
-                 var myquery = {'local.email':req.user.local.email};
-
-                 var newvalues = {$set: {'local.secretToken':secretToken} };
-                 dbo.collection("users").updateOne(myquery, newvalues, function(err, res) {
-                   if (err) throw err;
-                   console.log(res.result.nModified + " document(s) updated");
-                   db.close();
-                 });
-               });
+        //          var newvalues = {'local.secretToken':secretToken} ;
+        //          db.collection("users").updateOne(myquery, newvalues, function(err, res) {
+        //            if (err) throw err;
+        //            console.log(res.result.nModified + " document(s) updated");
+        //            db.close();
+        //          });
+        //        });
 
              const html = `hi there,
              <br/>
@@ -355,12 +365,12 @@ module.exports=
 
                              MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
                              if (err) throw err;
-                             var dbo = db.db("1");
+                            //  var dbo = db.db("EcommerceDB");
                      //        id=new MongoId
                              var myquery = {'local.email':user.local.email};
 
                              var newvalues = {$set: {'local.secretToken':'','local.status':1,'local.active':true} };
-                             dbo.collection("users").updateOne(myquery, newvalues, function(err, res) {
+                             db.collection("users").updateOne(myquery, newvalues, function(err, res) {
                                if (err) throw err;
                                console.log(res.result.nModified + " document(s) updated");
                                db.close();

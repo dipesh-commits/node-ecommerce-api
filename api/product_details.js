@@ -1,11 +1,16 @@
 const express = require('express');
-const router= express.Router()
+const router= express.Router();
+
 
 var db= require('../models/db');
+const passport = require('passport');
+
 var Product= require('../models/product.model');
 var Category = require('../models/category.model');
 var User = require('../models/user.model');
 var Views= require('../models/product_views.model');
+const passportJWT = passport.authenticate('jwt', { session: false });
+
 
 //getting the product details //updating the rating of the product
  router.post('/update-rating',function(req,res,next){
@@ -50,10 +55,13 @@ router.get('/:id',function(req,res){
         });
 
  //updating the rating of the product
- router.post('/update-rating/:id',async function(req,res,next){
+ router.post('/update-rating/:id',passportJWT,async function(req,res,next){
+     //aatish
+     console.log('userinfo',req.user);
+     //atish
     var userid="5ce29c9ca2eb5026b70aca12";    
     console.log(req.body);
-    var productid= req.params.id;
+    var productid = req.params.id;
     console.log(productid);
     var product=[];
     await Product.findOne({"_id":productid,"status":1},function(err,data){
