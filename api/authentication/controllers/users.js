@@ -29,30 +29,31 @@ signToken = user => {
 
 module.exports=
  {
-   edit: async(req,res, next)=>{
-       const user = await User.findOne({'_id':req.params.id});
-     if(!user){
-       res.json({status:"error",message:"user not found or invalid user"});
-     }
-      console.log(user);
+   edit:async(req,res, next)=>{
 
-   var myquery = {'local.email':user.local.email};
-   var newvalues = {$set: {'local.age':req.body.age,
+        const user = await User.findOne({'_id':req.params.id});
+        if(!user){
+                  res.json({status:"error",message:"user not found or invalid user"});
+                  }
+        console.log(user);
+
+        var myquery = {'local.email':user.local.email};
+        var newvalues = {$set: {'local.age':req.body.age,
                             'local.gender':req.body.gender,
                             'local.fullname':req.body.fullname,
                              'local.address':req.body.address} };
-    User.findOneAndUpdate(myquery,newvalues,{new:true},(err,doc)=>{
-      if(err)
-      {
-        console.log("error generated and  database not updated!")
-        res.json({staus:"error",message:"error generated and database not updated!"})
-      }
-      console.log(doc);
-    });
-     res.status(200).json({success:"profile edited"});
+        User.findOneAndUpdate(myquery,newvalues,{new:true},(err,doc)=>{
+           if(err)
+                  {
+                    console.log("error generated and  database not updated!")
+                    res.json({staus:"error",message:"error generated and database not updated!"})
+                   }
+            console.log(doc);
+        });
+           res.status(200).json({success:"profile edited"});
 
-    },
-   signIn: async (req, res, next)=>{
+      },
+  signIn: async (req, res, next)=>{
      console.log("uservalue:"+req.user);
 
     //    console.log(req.user.local.status);
@@ -199,9 +200,11 @@ module.exports=
 
       await newUser.save()
       .then(function(doc){
+        console.log('Your data has been successfully saved.');
         console.log(doc);
       })
       .catch(function(err){
+          console.log('Something went wrong while saving data.');
           console.error("error"+err);
       })
       //Compose an Email

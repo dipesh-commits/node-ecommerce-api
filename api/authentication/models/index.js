@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs');
 var appRoot = require('app-root-path');
 var db = require(appRoot + '/models/db.js');
+var uniqueValidator = require('mongoose-unique-validator')
 var passportLocalMongoose = require("passport-local-mongoose");
 // mongoose.connect('mongodb:localhost/EcommerceDB');
 const Schema = db.Schema;
@@ -258,7 +259,7 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-
+userSchema.plugin(uniqueValidator);
 userSchema.methods.isValidPassword = async function (newPassword) {
   try {
     return await bcrypt.compare(newPassword, this.local.password);
