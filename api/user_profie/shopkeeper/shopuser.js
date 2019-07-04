@@ -10,7 +10,7 @@ const {validateBody, schemas} = require('../../authentication/routes/helper/rout
 const passportJWT = passport.authenticate('jwt', { session: false });
 const multer= require('multer');
 var MongoClient = require('mongodb').MongoClient;
-var url = require('../../authentication/models/db')
+var url = require('../../../models/db')
 const Product = require('../../../models/product.model');
 var upload = multer();
 router.use(upload.array());

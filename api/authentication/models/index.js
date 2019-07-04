@@ -2,7 +2,7 @@
 const bcrypt = require('bcryptjs');
 var passportLocalMongoose = require("passport-local-mongoose");
 const mongoose = require('mongoose');
-const db = require('./db');
+const db = require('../../../models/db')
 
 // mongoose.connect('mongodb:localhost/EcommerceDB');
 const Schema = mongoose.Schema;
